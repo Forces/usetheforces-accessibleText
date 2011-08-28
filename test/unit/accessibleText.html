@@ -20,8 +20,15 @@
 
 <body>
 
+
 <!-- smiley sourced from http://commons.wikimedia.org/wiki/File:Face-smile.svg -->
 <p><a id="smiley" href="">The symbol for happiness is <img src="smiley.png" alt="a smiley face" /></a></p>
+
+<p><a id="text" href="">This is a text link</a></p>
+
+<p><a id="nested" href="">This is a text link with <strong>nested <em>elements</em></strong></a></p>
+
+
 
 <div id="qunit">
 	<h1 id="qunit-header">QUnit</h1>
@@ -49,11 +56,30 @@
 	});
 
 
+	module( "use case");
+
+	test( "jquery does not provide accessible text", function() {
+		
+		notEqual( $( "a#smiley" ).text(), "The symbol for happiness is a smiley face", ".text() does not match" );
+		notEqual( $( "a#smiley" ).attr( "alt" ), "The symbol for happiness is a smiley face", ".attr( \"alt\" ) does not match" );
+		notEqual( $( "a#smiley" ).contents(), "The symbol for happiness is a smiley face", ".contents() does not match" );
+		notEqual( $( "a#smiley" ).contents().text(), "The symbol for happiness is a smiley face", ".contents().text() does not match" );
+
+	});
+
+
 	module( "accessibleText()" );
 
 	test( "accessibleText() includes @alt text", function() {
 		
-		equal( $( "a#smiley" ).accessibleText(), "The symbol for happiness is a smiley face", "found expected text including alt")
+		equal( $( "a#smiley" ).accessibleText(), "The symbol for happiness is a smiley face", "found expected text including alt" );
+
+	});
+
+	test( "accessibleText() is the same as text() for elements without images", function() {
+		
+		equal( $( "a#text" ).accessibleText(), $( "a#text" ).text(), ".accessibleText() and .text() match" );
+		// equal( $( "a#nested" ).accessibleText(), $( "a#nested" ).text(), ".accessibleText() and .text() match" );
 
 	});
 
