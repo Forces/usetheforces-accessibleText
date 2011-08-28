@@ -6,24 +6,27 @@ if ( jQuery !== "undefined" ) {
 (function( $ ) {
 	"use strict";
 
-	$.fn.accessibleText = function () {
+	$.fn.accessibleText = function() {
 
-		var result = '';
+		return $.map( this.contents(), function( domElement ) {
 
-		$(this).contents().each(function(){
-			switch (this.nodeType) {
-			case 3: // text
-				result += $(this).text();
-			break;
-			case 1: // element
-				if ($(this).prop('nodeName') === 'IMG' && typeof $(this).attr('alt') !== 'undefined') {
-				result += $(this).attr('alt');
+			if ( domElement.nodeType === 3 ) {
+				return domElement.data;
+				
+			} else if ( domElement.nodeType === 1 ) {
+
+				var $element = $( domElement );
+
+				if ( $element.is( "img" ) === true ) {
+					return $element.attr( "alt" );
+
+				} else {
+					return $element.text();
 				}
-			break;
-			default: break; // otherwise ignore
 			}
-		});
-		return result;
+
+		}).join( "" );
+
 	};
 
 }( jQuery ));
