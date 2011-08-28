@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <radialGradient id="rad1" fx="29.158" fy="15.756" gradientUnits="userSpaceOnUse" cy="15.721" cx="29.288" r="8.9021">
+   <stop style="stop-color:#fffcde;" offset="0"/>
+   <stop style="stop-color:#f6e76a;" offset="0.64486"/>
+   <stop style="stop-color:#ffb738;" offset="1"/>
+  </radialGradient>
+  <radialGradient id="rad2" gradientUnits="userSpaceOnUse" cy="39.593" cx="25.053" gradientTransform="matrix(1.25,0,0,1.25,-6.47945,-13.3721)" r="15.757">
+   <stop style="stop-color:#777;" offset="0"/>
+   <stop offset="1"/>
+  </radialGradient>
+  <radialGradient id="rad3" gradientUnits="userSpaceOnUse" cy="38.571" cx="24.714" gradientTransform="matrix(1,0,0,0.333333,0,25.7143)" r="19.714">
+   <stop offset="0"/>
+   <stop style="stop-opacity:0;" offset="1"/>
+  </radialGradient>
+ </defs>
+ <path style="opacity:0.53164601;fill:url(#rad3);" d="M44.429,38.571a19.714,6.5714,0,1,1,-39.429,0,19.714,6.5714,0,1,1,39.429,0z"/>
+ <path style="stroke:#9c8c0a;stroke-width:0.48;fill:url(#rad1);" d="M39.775,19.009a8.6621,8.6621,0,1,1,-17.324,0,8.6621,8.6621,0,1,1,17.324,0z" transform="matrix(2.08314,0,0,2.08314,-40.5471,-16.4922)"/>
+ <path style="opacity:0.67721498;stroke:#fff;stroke-width:0.50510597;fill:none;" d="M39.775,19.009a8.6621,8.6621,0,1,1,-17.324,0,8.6621,8.6621,0,1,1,17.324,0z" transform="matrix(1.97978,0,0,1.97978,-37.3313,-14.5275)"/>
+ <path style="opacity:0.36;fill:#fff;" d="M37.285,24.72c-3.017,5.225-6.544,8.99-12.823,8.99-6.1,0-10.565-4.34-13.352-9.167,2.549,3.056,6.283,6.567,13.087,6.567,8.131,0,9.552-2.907,13.088-6.39z"/>
+ <path style="fill:url(#rad2);" d="M37.285,24.013c-3.017,5.225-6.544,8.99-12.823,8.99-6.1,0-10.565-4.34-13.352-9.167,2.549,3.056,6.283,6.566,13.087,6.566,8.131,0,9.552-2.906,13.088-6.389z"/>
+ <g transform="translate(0.353553,2.39271)">
+  <path style="opacity:0.36;fill:#fff;" d="M21.398,15.321c0,2.5-1.125,4.5-2.5,4.5s-2.625-2-2.625-4.5,1.125-4.5,2.5-4.5,2.5,2,2.5,4.5h0.125z"/>
+  <path style="opacity:0.36;fill:#fff;" d="M30.689,15.321c0,2.5-1.125,4.5-2.5,4.5s-2.5-2-2.5-4.5,1.125-4.5,2.5-4.5,2.5,2,2.5,4.5z"/>
+  <path d="M21.398,14.696c0,2.5-1.125,4.5-2.5,4.5s-2.5-2-2.5-4.5,1.125-4.5,2.5-4.5,2.5,2,2.5,4.5z"/>
+  <path d="M30.689,14.696c0,2.5-1.125,4.5-2.5,4.5s-2.5-2-2.5-4.5,1.125-4.5,2.5-4.5,2.5,2,2.5,4.5z"/>
+ </g>
+</svg>

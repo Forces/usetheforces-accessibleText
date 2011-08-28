@@ -20,6 +20,9 @@ if ( jQuery !== "undefined" ) {
 				if ( $element.is( "img" ) === true ) {
 					return $element.attr( "alt" );
 
+				} else if ( $element.find( "img[alt]" ).length > 0 ) {
+					return $element.accessibleText();
+
 				} else {
 					return $element.text();
 				}

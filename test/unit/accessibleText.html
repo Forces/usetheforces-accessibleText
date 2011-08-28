@@ -12,6 +12,10 @@
 			color: #111;
 		}
 
+		img {
+			height: 1em;
+		}
+
 	</style>
 	<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css">
 	<script src="http://code.jquery.com/qunit/qunit-git.js"></script>
@@ -21,13 +25,37 @@
 <body>
 
 
-<!-- smiley sourced from http://commons.wikimedia.org/wiki/File:Face-smile.svg -->
-<p><a id="smiley" href="">The symbol for happiness is <img src="smiley.png" alt="a smiley face" /></a></p>
+<!-- acknowledgements:
+	smiley sourced from http://commons.wikimedia.org/wiki/File:Face-smile.svg
+	down arrow: http://commons.wikimedia.org/wiki/File:Go-down.svg
+	up arrow: http://commons.wikimedia.org/wiki/File:Go-up.svg
+-->
+<p><a id="smiley" href="">The symbol for happiness is <img src="Face-smile.svg" alt="a smiley face" /></a></p>
 
 <p><a id="text" href="">This is a text link</a></p>
+<p><a id="textbreak" href="">This is a text link<br />
+	with a line break</a></p>
 
 <p><a id="nested" href="">This is a text link with <strong>nested <em>elements</em></strong></a></p>
 
+<p><a id="noalt" href="">The symbol for happiness is <img src="Face-smile.svg" /></a></p>
+
+<p><a id="nestedImg" href="">The symbol for <strong>happiness is <em><img src="Face-smile.svg" alt="a smiley face" /></em></strong></a></p>
+
+<div id="rhyme">
+	<ol>
+		<li>Oh, <a href="http://en.wikipedia.org/wiki/The_Grand_Old_Duke_of_York">The grand old <em>Duke of York</em></a>,</li>
+		<li>He had <dfn title="10,000">ten thousand</dfn> men;</li>
+		<li>He marched them <img src="Go-up.svg" alt="up" /> to the top of the hill,</li>
+		<li>And he marched them <img src="Go-down.svg" alt="down" /> again.</li>
+	</ol>
+	<ol>
+		<li>And when they were <img src="Go-up.svg" alt="up" />, they were <img src="Go-up.svg" alt="up" />,</li>
+		<li>And when they were <img src="Go-down.svg" alt="down" />, they were <img src="Go-down.svg" alt="down" />,</li>
+		<li>And when they were only half-way <img src="Go-up.svg" alt="up" />,</li>
+		<li>They were neither <img src="Go-up.svg" alt="up" /> nor <img src="Go-down.svg" alt="down" />.</li>
+	</ol>
+</div>
 
 
 <div id="qunit">
@@ -49,9 +77,16 @@
 
 	test( "test fields are in test form", function() {
 
-		equal( $( "a#smiley" ).length, 1, "a#smiley is present" );
-		equal( $( "a#smiley img" ).length, 1, "a#smiley contains img" );
 		equal( $( "a#smiley img" ).attr( "alt" ), "a smiley face", "img has expected @alt text" );
+		equal( $( "a#text" ).length, 1, "a#text is present" );
+		equal( $( "a#text img" ).length, 0, "no images in a#text" );
+		equal( /\n/.test( $( "a#textbreak" ).text() ), true, "\\n in a#textbreak" );
+		equal( $( "a#textbreak br" ).length, 1, "1 br in a#textbreak" );
+		equal( $( "a#textbreak img" ).length, 0, "no images in a#textbreak" );
+		equal( $( "a#nested > strong > em" ).length, 1, "a#nested contains strong em" );
+		equal( $( "a#noalt img" )[0].hasAttribute( "alt" ), false, "a#noalt img omits @alt" );
+		equal( $( "a#nestedImg strong em img" ).length, 1, "a#nestedImg contains image inside strong em" );
+		equal( $( "#rhyme img" ).length, 9, "#rhyme has 9 img elements" );
 
 	});
 
@@ -61,6 +96,7 @@
 	test( "jquery does not provide accessible text", function() {
 		
 		notEqual( $( "a#smiley" ).text(), "The symbol for happiness is a smiley face", ".text() does not match" );
+		notEqual( $( "a#nestedImg" ).text(), "The symbol for happiness is a smiley face", ".text() does not match" );
 		notEqual( $( "a#smiley" ).attr( "alt" ), "The symbol for happiness is a smiley face", ".attr( \"alt\" ) does not match" );
 		notEqual( $( "a#smiley" ).contents(), "The symbol for happiness is a smiley face", ".contents() does not match" );
 		notEqual( $( "a#smiley" ).contents().text(), "The symbol for happiness is a smiley face", ".contents().text() does not match" );
@@ -76,10 +112,45 @@
 
 	});
 
+	test( "accessibleText() handles missing @alt", function() {
+		
+		equal( $( "a#noalt" ).accessibleText(), "The symbol for happiness is ", "missing @alt treated as empty string" );
+
+	});
+
 	test( "accessibleText() is the same as text() for elements without images", function() {
 		
 		equal( $( "a#text" ).accessibleText(), $( "a#text" ).text(), ".accessibleText() and .text() match" );
-		// equal( $( "a#nested" ).accessibleText(), $( "a#nested" ).text(), ".accessibleText() and .text() match" );
+
+		// handles \n\t in html source and ignores <br />
+		var text = "This is a text link\n\twith a line break";
+		equal( $( "a#textbreak" ).text(), text, ".text() matches text" );
+		equal( $( "a#textbreak" ).accessibleText(), text, ".accessibleText() matches text" );
+
+	});
+
+	test( "accessibleText() handles nested content", function() {
+		
+		equal( $( "a#nested" ).accessibleText(), $( "a#nested" ).text(), ".accessibleText() handles nested content" );
+		equal( $( "a#nestedImg" ).accessibleText(), "The symbol for happiness is a smiley face", ".accessibleText() handles nested img@alt" );
+
+		var rhyme = $( "#rhyme" ).accessibleText();
+		// replace multiple newlines with a single new line
+		rhyme = rhyme.replace( /\n+/, "\n" );
+		// remove tabs
+		rhyme = rhyme.replace( /\t+/, "" );
+
+		equal( rhyme, "\n\n" + [
+			"\t\tOh, The grand old Duke of York,",
+			"\t\tHe had ten thousand men;",
+			"\t\tHe marched them up to the top of the hill,",
+			"\t\tAnd he marched them down again."
+		].join( "\n" ) + "\n\t\n\t\n" + [
+			"\t\tAnd when they were up, they were up,",
+			"\t\tAnd when they were down, they were down,",
+			"\t\tAnd when they were only half-way up,",
+			"\t\tThey were neither up nor down."
+		].join( "\n" ) + "\n\t\n", ".accessibleText() handles complex nesting with images" );
 
 	});
 
