@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>accessibleText() tests</title>
+
+	<style>
+		body {
+			padding: 2em;
+			font-family: sans-serif;
+			background: #faf7f3;
+			color: #111;
+		}
+
+	</style>
+	<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css">
+	<script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+
+</head>
+
+<body>
+
+<!-- smiley sourced from http://commons.wikimedia.org/wiki/File:Face-smile.svg -->
+<p><a id="smiley" href="">The symbol for happiness is <img src="smiley.png" alt="a smiley face" /></a></p>
+
+<div id="qunit">
+	<h1 id="qunit-header">QUnit</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">test markup, will be hidden</div>
+</div>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script src="../../src/accessibleText.js"></script>
+
+<script><!-- //
+
+	module( "environment" );
+
+	test( "test fields are in test form", function() {
+
+		equal( $( "a#smiley" ).length, 1, "a#smiley is present" );
+		equal( $( "a#smiley img" ).length, 1, "a#smiley contains img" );
+		equal( $( "a#smiley img" ).attr( "alt" ), "a smiley face", "img has expected @alt text" );
+
+	});
+
+
+	module( "accessibleText()" );
+
+	test( "accessibleText() includes @alt text", function() {
+		
+		equal( $( "a#smiley" ).accessibleText(), "The symbol for happiness is a smiley face", "found expected text including alt")
+
+	});
+
+// --></script>
+
+
+</body>
+</html>
