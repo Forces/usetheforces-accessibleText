@@ -127,6 +127,8 @@
 		equal( $( 'a#textbreak' ).text(), text, '.text() matches text' );
 		equal( $( 'a#textbreak' ).accessibleText(), text, '.accessibleText() matches text' );
 
+		equal( $( 'a#textbreak, a#text' ).accessibleText(), $( 'a#textbreak, a#text' ).text(), '$(1, 2).accessibleText() matches $(1, 2).text()' );
+
 	});
 
 	test( 'accessibleText() handles nested content', function() {
@@ -151,6 +153,14 @@
 			'\t\tAnd when they were only half-way up,',
 			'\t\tThey were neither up nor down.'
 		].join( '\n' ) + '\n\t\n', '.accessibleText() handles complex nesting with images' );
+
+	});
+
+	test( 'accessibleText() concatenation', function() {
+		
+		equal( $( 'a#text, a#nestedImg' ).accessibleText(), 'This is a text linkThe symbol for happiness is a smiley face', 'multiple selectors concatenated' );
+		equal( $( 'a#text' ).add( 'a#nestedImg' ).accessibleText(), 'This is a text linkThe symbol for happiness is a smiley face', 'object .add() concatenated' );
+		equal( $( 'a#nestedImg' ).add( 'a#text' ).accessibleText(), 'This is a text linkThe symbol for happiness is a smiley face', 'object .add() concatenated (order is irrelevant)' );
 
 	});
 
